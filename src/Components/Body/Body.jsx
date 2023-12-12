@@ -1,5 +1,6 @@
 import React from "react";
 import { useState } from "react";
+import "./body.css";
 
 import axios from "axios";
 export default function Body() {
@@ -17,6 +18,8 @@ export default function Body() {
 			excludeIngredients: exclude,
 			number: "20",
 			offset: "0",
+			addRecipeInformation: true,
+			maxReadyTime: 100,
 		},
 		headers: {
 			"x-rapidapi-host":
@@ -35,8 +38,8 @@ export default function Body() {
 		}
 	};
 	return (
-		<div className="">
-			<h1 className="">Recipe Search</h1>
+		<div className="bodytr">
+			<h1 className="header">Recipe Search</h1>
 			{/* <h2 className="">Search recipes from all over the world.</h2> */}
 			<form
 				className="form"
@@ -56,19 +59,18 @@ export default function Body() {
 					}}
 				/>
 				<div className="diet">
-					<div className="">
-						<label className="">diet1</label>
+					<div className="Exclude">
 						<select
 							className=""
 							onChange={(e) => setdiet1(e.target.value)}
 						>
 							{[
-								"none",
-								"pescetarian",
-								"lacto vegetarian",
-								"ovo vegetarian",
-								"vegan",
-								"vegetarian",
+								"Select",
+								"Pescetarian",
+								"Lacto vegetarian",
+								"Ovo vegetarian",
+								"Vegan",
+								"Vegetarian",
 							].map((diet1, indx) => {
 								return (
 									<option
@@ -80,13 +82,14 @@ export default function Body() {
 								);
 							})}
 						</select>
+						<label>Diet</label>
 					</div>
 					<div className="Exclude">
 						<label className="">Exclude Ingredients</label>
 						<input
 							type="text"
 							className=""
-							placeholder="cocunut"
+							placeholder="write here"
 							onChange={(e) => setExclude(e.target.value)}
 						></input>
 					</div>
@@ -100,43 +103,31 @@ export default function Body() {
 			</form>
 			{response && ( // Render only if response is not null
 				<div className="responce">
-					<div
-						className="cnt-item"
-						style={{
-							display: "grid",
-							gridTemplateColumns: "repeat(3, 1fr)",
-						}}
-					>
+					<div className="cnt-item">
 						{response.map((recipe) => (
 							<div
 								key={recipe.id}
 								className="responce-item"
 							>
-								<div className="">
-									<div className="">
-										<div className="">
-											<span className="">
-												<img
-													src={recipe.image}
-													className=""
-													alt={recipe.id}
-												/>
-											</span>
-										</div>
-										<div className="">
-											<h3 className="">{recipe.title}</h3>
-											<span className="">
-												Ready in {recipe.readyInMinutes} minutes -{" "}
-												{recipe.servings} Servings
-											</span>
-											<a
-												className=""
-												href={recipe.sourceUrl}
-											>
-												Go to Recipe
-											</a>
-										</div>
-									</div>
+								<span className="imageSpan">
+									<img
+										src={recipe.image}
+										className=""
+										alt={recipe.id}
+									/>
+								</span>
+								<div className="itemDescription">
+									<h3 className="titleRecipes">{recipe.title}</h3>
+									<span className="">
+										Ready in {recipe.readyInMinutes} minutes <br />{" "}
+									</span>
+									<span>{recipe.servings} Servings</span>
+									<a
+										className=""
+										href={recipe.sourceUrl}
+									>
+										Go to Recipe
+									</a>
 								</div>
 							</div>
 						))}
